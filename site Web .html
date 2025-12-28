@@ -1,0 +1,314 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Ma Boutique Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f9f9f9;
+    color: #333;
+}
+header {
+    background: #1abc9c;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+header img {
+    height: 50px;
+    width: auto;
+}
+header h1 { margin: 0; font-size: 2em; }
+
+.container { max-width: 1200px; margin: auto; padding: 20px; }
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.product {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+.product img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.product .caption {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 10px;
+}
+.product .price { font-weight: bold; margin-bottom: 10px; }
+.product button {
+    background: #1abc9c;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.product button:hover { background: #13876b; }
+.product input[type=file] { margin-top: 10px; }
+
+.cart {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.cart table { width: 100%; border-collapse: collapse; }
+.cart th, .cart td { padding: 10px; text-align: center; border-bottom: 1px solid #ddd; }
+.cart button { padding: 4px 8px; margin: 0 2px; }
+
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+form input, form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+form button { background: #1abc9c; color: white; border: none; padding: 12px 18px; border-radius: 6px; cursor: pointer; }
+form button:hover { background: #13876b; }
+
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #1abc9c;
+    color: white;
+    margin-top: 50px;
+}
+
+/* ==== Modal pour zoom image ==== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left:0; top:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+.modal img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+.modal:target { display: flex; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<header>
+    <img src="images/logo.png" alt="Logo Site">
+    <h1>Ma Boutique Pro</h1>
+</header>
+
+<div class="container">
+
+    <div class="products">
+        <!-- Exemple pour 2 produits, répéter pour 10 -->
+        <div class="product">
+            <a href="#modal1"><img src="images/produit1.jpg" id="img1" alt="Produit 1"></a>
+            <div class="caption">Légende produit 1</div>
+            <p class="price">19,99 €</p>
+            <button onclick="addToCart('Produit 1',19.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img1')">
+        </div>
+        <div class="product">
+            <a href="#modal2"><img src="images/produit2.jpg" id="img2" alt="Produit 2"></a>
+            <div class="caption">Légende produit 2</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 2',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img2')">
+       
+             <div class="product">
+            <a href="#modal3"><img src="images/produit2.jpg" id="img3" alt="Produit 3"></a>
+            <div class="caption">Légende produit 3</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 2',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img3')">
+        </div>
+              <div class="product">
+            <a href="#modal4"><img src="images/produit4.jpg" id="img4" alt="Produit 4"></a>
+            <div class="caption">Légende produit 4</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 2',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img4')">
+        </div>
+              <div class="product">
+            <a href="#modal4"><img src="images/produit5.jpg" id="img5" alt="Produit 5"></a>
+            <div class="caption">Légende produit 5</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 5',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img5')">
+        </div>
+              <div class="product">
+            <a href="#modal6"><img src="images/produit6.jpg" id="img6" alt="Produit 6"></a>
+            <div class="caption">Légende produit 6</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 6',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img6')">
+        </div>
+                  <div class="product">
+            <a href="#modal7"><img src="images/produit7.jpg" id="img7" alt="Produit 7"></a>
+            <div class="caption">Légende produit 7</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 7',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img7')">
+             </div>
+              <div class="product">
+            <a href="#modal8"><img src="images/produit8.jpg" id="img8" alt="Produit 8"></a>
+            <div class="caption">Légende produit 8</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 8',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img8')">
+        </div>
+              <div class="product">
+            <a href="#modal9"><img src="images/produit9.jpg" id="img9" alt="Produit 9"></a>
+            <div class="caption">Légende produit 9</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 9',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img9')">
+        </div>
+              <div class="product">
+            <a href="#modal10"><img src="images/produit10.jpg" id="img10" alt="Produit 10"></a>
+            <div class="caption">Légende produit 10</div>
+            <p class="price">24,99 €</p>
+            <button onclick="addToCart('Produit 10',24.99)">Ajouter au panier</button>
+            <input type="file" accept="image/*" onchange="changeImage(event,'img10')">
+        </div>
+   
+        </div>
+        <!-- Ajouter ici les autres produits jusqu'à 10 -->
+    </div>
+
+    <!-- Panier avancé -->
+    <div class="cart">
+        <h2>Panier</h2>
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p><strong>Total Général :</strong> <span id="totalGeneral">0.00</span> €</p>
+    </div>
+
+    <!-- Formulaire Contact -->
+    <div id="contact">
+        <h2>Contactez-nous</h2>
+        <form onsubmit="return submitForm()">
+            <input type="text" id="name" placeholder="Votre nom" required>
+            <input type="email" id="email" placeholder="Votre email" required>
+            <textarea id="message" placeholder="Votre message" rows="5" required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+</div>
+
+<footer>
+    © 2025 - Ma Boutique Pro
+</footer>
+
+<!-- Modals -->
+<div id="modal1" class="modal" onclick="this.style.display='none'"><img src="images/produit1.jpg"></div>
+<div id="modal2" class="modal" onclick="this.style.display='none'"><img src="images/produit2.jpg"></div>
+
+<script>
+// Panier avancé
+let cart = [];
+
+function addToCart(name, price) {
+    const index = cart.findIndex(item => item.name === name);
+    if(index > -1) cart[index].qty += 1;
+    else cart.push({name, price, qty:1});
+    renderCart();
+}
+
+function renderCart(){
+    const tbody = document.querySelector("#cartTable tbody");
+    tbody.innerHTML = "";
+    let totalGeneral = 0;
+    cart.forEach((item, i)=>{
+        const totalItem = item.price*item.qty;
+        totalGeneral += totalItem;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.price.toFixed(2)} €</td>
+            <td>
+                <button onclick="decreaseQty(${i})">−</button> ${item.qty} <button onclick="increaseQty(${i})">+</button>
+            </td>
+            <td>${totalItem.toFixed(2)} €</td>
+            <td><button onclick="removeItem(${i})">Supprimer</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+    document.getElementById("totalGeneral").textContent = totalGeneral.toFixed(2);
+}
+
+function increaseQty(index){ cart[index].qty +=1; renderCart(); }
+function decreaseQty(index){ 
+    if(cart[index].qty>1) cart[index].qty -=1; 
+    else removeItem(index);
+    renderCart();
+}
+function removeItem(index){ cart.splice(index,1); renderCart(); }
+
+// Changer image
+function changeImage(event, imgId){
+    const file = event.target.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){ document.getElementById(imgId).src = e.target.result; }
+        reader.readAsDataURL(file);
+    }
+}
+
+// Formulaire contact
+function submitForm(){
+    const name = document.getElementById("name").value;
+    alert(`Merci ${name}, votre message a été envoyé !`);
+    return false;
+}
+
+</script>
+
+</body>
+
+</html>
